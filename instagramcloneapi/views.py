@@ -125,7 +125,8 @@ class RegisterView(APIView):
             return CreateResponse.failed(data, status_code=status.HTTP_400_BAD_REQUEST, message='BAD REQUEST')
 
         except Exception as exception:
-            return CreateResponse.failed(exception, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, message='INTERNAL SERVER ERROR')
+            print(exception)
+            return CreateResponse.failed("Failed", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, message='INTERNAL SERVER ERROR')
 
 
 class LoginView(APIView):
