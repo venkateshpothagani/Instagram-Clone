@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'instagramcloneapi.apps.InstagramcloneapiConfig',
-    # 'instagramcloneapi'
 ]
 
 MIDDLEWARE = [
@@ -88,12 +87,12 @@ WSGI_APPLICATION = 'instagramclone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'instagram',
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'axcelate',
+        'USER': 'axcelate',
+        'PASSWORD': 'axcelate',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

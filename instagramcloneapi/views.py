@@ -13,10 +13,6 @@ import os
 
 import random
 
-BUCKET_NAME = 'BUCKET_NAME'
-ACCESS_KEY_ID = "ACCESS_KEY_ID"
-SECRET_ACCESS_KEY = "SECRET_ACCESS_KEY"
-
 
 class CreateResponse:
     '''
@@ -142,10 +138,6 @@ class LoginView(APIView):
     '''
 
     def post(self, request):
-        '''
-        login method
-        '''
-
         try:
             data = JSONParser().parse(request)
 
@@ -184,7 +176,9 @@ class LoginView(APIView):
                         return CreateResponse.failed(data, status_code=status.HTTP_400_BAD_REQUEST, message='PASSWORD MISMATCH')
 
                     token = JwtToken.encode(
-                        {"email": user["email"], "user_id": user["id"]})
+                        {"email": user["email"], "user_id": user["id"]}
+                    )
+
                     return CreateResponse.success(data={"token": token})
 
                 except Exception as exception:
@@ -203,14 +197,8 @@ class LoginView(APIView):
 
 
 class UserFeeds(APIView):
-    """
-    UserFeeds
-    """
 
     def get(self, request):
-        """
-        Get all posts
-        """
         try:
             token = request.META.get("HTTP_AUTHORIZATION", "")
 
@@ -303,23 +291,23 @@ class PostView(APIView):
                     message='TOKEN VALIDATION FAILED')
 
             try:
-                file_extension = os.path.splitext(
-                    str(request.FILES['image']))[1]
+                # file_extension = os.path.splitext(
+                #     str(request.FILES['image']))[1]
 
-                filename = f"posts/{user_id}/" + datetime.now().strftime("%d-%m-%YT") + \
-                    str(random.randint(10 ** 10, (10 ** 10) * 9)) + file_extension
+                # filename = f"posts/{user_id}/" + datetime.now().strftime("%d-%m-%YT") + \
+                #     str(random.randint(10 ** 10, (10 ** 10) * 9)) + file_extension
 
-                session = Session(
-                    aws_access_key_id=ACCESS_KEY_ID,
-                    aws_secret_access_key=SECRET_ACCESS_KEY
-                )
+                # session = Session(
+                #     aws_access_key_id=ACCESS_KEY_ID,
+                #     aws_secret_access_key=SECRET_ACCESS_KEY
+                # )
 
-                s3 = session.resource('s3')
-                s3.Bucket(BUCKET_NAME).put_object(
-                    Key=filename, Body=request.FILES['image']
-                )
+                # s3 = session.resource('s3')
+                # s3.Bucket(BUCKET_NAME).put_object(
+                #     Key=filename, Body=request.FILES['image']
+                # )
 
-                file_url = f"https://{BUCKET_NAME}.s3.ap-south-1.amazonaws.com/{filename}"
+                file_url = "https://{BUCKET_NAME}.s3.ap-south-1.amazonaws.com/{filename}"
 
                 required_data = {
                     "user": user_id,
@@ -415,22 +403,22 @@ class ProfileView(APIView):
                     message='TOKEN VALIDATION FAILED')
 
             try:
-                file_extension = os.path.splitext(
-                    str(request.FILES['image']))[1]
+                # file_extension = os.path.splitext(
+                #     str(request.FILES['image']))[1]
 
-                filename = f"profile/{str(user_id)}/" + datetime.now().strftime("%d-%m-%YT") + \
-                    str(random.randint(10 ** 10, (10 ** 10) * 9)) + file_extension
+                # filename = f"profile/{str(user_id)}/" + datetime.now().strftime("%d-%m-%YT") + \
+                #     str(random.randint(10 ** 10, (10 ** 10) * 9)) + file_extension
 
-                session = Session(
-                    aws_access_key_id=ACCESS_KEY_ID,
-                    aws_secret_access_key=SECRET_ACCESS_KEY
-                )
+                # session = Session(
+                #     aws_access_key_id=ACCESS_KEY_ID,
+                #     aws_secret_access_key=SECRET_ACCESS_KEY
+                # )
 
-                s3 = session.resource('s3')
-                s3.Bucket('sample-bucket-hic').put_object(
-                    Key=filename, Body=request.FILES['image'])
+                # s3 = session.resource('s3')
+                # s3.Bucket('sample-bucket-hic').put_object(
+                #     Key=filename, Body=request.FILES['image'])
 
-                file_url = f"https://{BUCKET_NAME}.s3.ap-south-1.amazonaws.com/{filename}"
+                file_url = "https://{BUCKET_NAME}.s3.ap-south-1.amazonaws.com/{filename}"
 
                 required_data = {
                     "user": user_id,
