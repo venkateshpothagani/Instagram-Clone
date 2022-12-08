@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 def upload_to(instance, filename):
@@ -9,7 +10,7 @@ class User(models.Model):
     phoneNumber = models.CharField(max_length=14, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True, default='')
     password = models.CharField(max_length=100, blank=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True,  blank=True)
 
     def __str__(self) -> str:
         return "User Model"
@@ -22,13 +23,13 @@ class Post(models.Model):
     image = models.URLField(max_length=512, blank=True, null=True)
     user = models.ForeignKey(User, related_name='posts',
                              on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
 
 
 class Profile(models.Model):
     username = models.CharField(max_length=100, blank=False, unique=True)
     name = models.CharField(max_length=100, blank=True, null=True, default='')
     image = models.URLField(max_length=512, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE, unique=True)
